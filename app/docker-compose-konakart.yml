@@ -1,0 +1,14 @@
+konakart-app:
+  build: .
+  ports:
+    - "8780"
+  external_links:
+    - dtcollector
+    - dtagent
+    - konakart_db
+  volumes_from:
+    - dtagent
+  environment:
+    DB_ADDRESS: 172.17.0.1
+    DB_PORT: 3300
+    CATALINA_OPTS: "-agentpath:/dynatrace/agent/lib64/libdtagent.so=name=dtagent,collector=dtcollector"

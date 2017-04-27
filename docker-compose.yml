@@ -1,0 +1,20 @@
+konakart_app:
+ build: ./app
+ external_links:
+   - dtcollector
+   - konakart_db
+ volumes_from:
+   - dtagent
+ environment:
+   DB_ADDRESS: 172.17.0.1
+   DB_PORT: 3300
+   CATALINA_OPTS: "-agentpath:/dynatrace/agent/lib64/libdtagent.so=name=appserver_KonaKart,collector=dtcollector"
+   TCP_PORTS: 9000, 9001, 9002
+
+
+konakart_proxy:
+ image: 'dockercloud/haproxy:latest'
+ links:
+   - konakart_app
+ ports:
+   - '80:80'
